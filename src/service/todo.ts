@@ -11,6 +11,7 @@ export const getData = async (): Promise<TodoData[]> => {
         });
         const data = await res.json();
         return data
+        revalidateTag("todos")
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -23,6 +24,8 @@ export const deleteData = async (id: number) => {
         })
         const data = await res.json()
         revalidateTag("todos")
+        console.log(data);
+        
         return data
     } catch (error) {
         throw new Error("error")
@@ -51,7 +54,7 @@ export const editData=async(id:number,title:string,description:string)=>{
 export const postTodos = async (data: { title: string, description: string }) => {
     try {
        
-        const res = await fetch('http:localhost:3600/todos', {
+        const res = await fetch('http://localhost:3600/todos', {
             headers: {
                 'Content-Type': 'application/json',
             },
